@@ -6,14 +6,14 @@ interface AddCategoryContracts {
     interface IView {
         fun onValidationResult(isValid: Boolean)
         fun onFirebaseStorageResponse(exception: Exception?, downloadUrl: String?)
-        fun OnFirstoreResponse(exception: Exception?)
+        fun onFirestoreResponse(exception: Exception?)
     }
 
     interface IPresenter {
         fun prepareToolbar(toolbar: androidx.appcompat.widget.Toolbar)
         fun initValidation(uri: Uri?, categoryName: String?)
         fun selectImage()
-        fun uploadImage(uri: Uri)
+        fun uploadImage(uri: Uri, categoryName: String)
         fun saveDataToFirestore(downloadUrl: String, categoryName: String)
     }
 

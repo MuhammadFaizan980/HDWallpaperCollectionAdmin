@@ -4,4 +4,6 @@
     <color name="colorBackground">#F1F1F1</color>
     <color name="colorPrimaryDark">#cccccc</color>
     <color name="colorAccent">#000000</color>
+    <color name="colorBackground2">#CCCCCC</color>
+    <color name="colorBackground3">#858585</color>
 </resources>

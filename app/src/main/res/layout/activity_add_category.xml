@@ -1,9 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
     tools:context=".activity_add_category.ActivityAddCategory">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorBackground2"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:background="@color/colorBackground3">
+
+            <ImageView
+                android:id="@+id/img_add_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="32dp"
+                android:src="@drawable/ic_camera" />
+
+            <ImageView
+                android:id="@+id/img_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="350dp" />
+
+            <EditText
+                android:id="@+id/edt_category_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/edit_text_background"
+                android:hint="@string/enter_name"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent" />
+
+        </FrameLayout>
+
+
+        <Button
+            android:id="@+id/btn_add_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/add_category" />
+
+    </LinearLayout>
+
+</LinearLayout>

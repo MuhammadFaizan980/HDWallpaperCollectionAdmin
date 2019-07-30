@@ -1,8 +1,9 @@
-package com.squadtechs.hdwallpapercollectionadmin
+package com.squadtechs.hdwallpapercollectionadmin.activity_main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.squadtechs.hdwallpapercollectionadmin.R
 
 class MainActivity : AppCompatActivity() {
 

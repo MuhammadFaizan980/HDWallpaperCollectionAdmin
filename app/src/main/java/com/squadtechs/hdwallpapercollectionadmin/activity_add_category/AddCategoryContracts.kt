@@ -10,7 +10,9 @@ interface AddCategoryContracts {
     }
 
     interface IPresenter {
-        fun initValidation(uri: Uri?, categoryName: String)
+        fun prepareToolbar(toolbar: androidx.appcompat.widget.Toolbar)
+        fun initValidation(uri: Uri?, categoryName: String?)
+        fun selectImage()
         fun uploadImage(uri: Uri)
         fun saveDataToFirestore(downloadUrl: String, categoryName: String)
     }

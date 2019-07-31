@@ -44,7 +44,7 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
         if (position % 2 == 0) {
             holder.frame.setPadding(3, 3, 0, 0)
         } else {
-            holder.frame.setPadding(0, 3, 3, 0)
+            holder.frame.setPadding(3, 3, 3, 0)
         }
     }
 

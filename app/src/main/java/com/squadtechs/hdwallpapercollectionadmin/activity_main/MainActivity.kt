@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
         collectionReference.orderBy("server_time_stamp", Query.Direction.DESCENDING).addSnapshotListener { p0, p1 ->
+            list.clear()
             if (p1 == null && !p0!!.isEmpty) {
                 for (doc in p0.documents) {
                     val obj = doc.toObject(CategoryModel::class.java)!!

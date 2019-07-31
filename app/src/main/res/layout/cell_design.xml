@@ -18,11 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="4dp"
         android:background="@drawable/textview_background"
         android:gravity="center"
         android:text="@string/nature"
         android:textColor="@color/colorAccent" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <View
         android:id="@+id/touch_view"

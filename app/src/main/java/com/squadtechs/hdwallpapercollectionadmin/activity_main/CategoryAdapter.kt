@@ -2,16 +2,20 @@ package com.squadtechs.hdwallpapercollectionadmin.activity_main
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.BasicNetwork
+import com.android.volley.toolbox.DiskBasedCache
+import com.android.volley.toolbox.HurlStack
+import com.android.volley.toolbox.ImageRequest
 import com.squadtechs.hdwallpapercollectionadmin.R
-import com.squareup.picasso.Picasso
 
 
 class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) :
@@ -28,11 +32,30 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
     override fun onBindViewHolder(holder: CategoryHolder, position: Int) {
         adjustLayout(holder, position)
         inflateValues(holder, position)
+        setListener(holder)
+    }
+
+    private fun setListener(holder: CategoryHolder) {
+        holder.touchView.setOnClickListener {
+            Toast.makeText(context, "Touch detected", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun inflateValues(holder: CategoryHolder, position: Int) {
         holder.txtTitle.text = list[position].category_name
-        Picasso.get().load(list[position].category_image_url).into(holder.imgCell)
+        val cache = DiskBasedCache(context.cacheDir, 0)
+        val network = BasicNetwork(HurlStack())
+        val requestQueue = RequestQueue(cache, network)
+        requestQueue.start()
+        val imageRequest = ImageRequest(list[position].category_image_url, Response.Listener { response ->
+            holder.progress.visibility = View.INVISIBLE
+            holder.imgCell.setImageBitmap(response)
+        },
+            0, 0, ImageView.ScaleType.CENTER, Bitmap.Config.RGB_565, Response.ErrorListener { error ->
+                holder.progress.visibility = View.INVISIBLE
+                Toast.makeText(context, "There was an error loading this image", Toast.LENGTH_LONG).show()
+            })
+        requestQueue.add(imageRequest)
     }
 
     private fun adjustLayout(holder: CategoryHolder, position: Int) {
@@ -42,9 +65,9 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
         val width = displayMetrics.widthPixels
         holder.frame.layoutParams = FrameLayout.LayoutParams((width / 2), ((40 * height) / 100))
         if (position % 2 == 0) {
-            holder.frame.setPadding(3, 3, 0, 0)
+            holder.frame.setPadding(8, 8, 0, 0)
         } else {
-            holder.frame.setPadding(3, 3, 3, 0)
+            holder.frame.setPadding(8, 8, 8, 0)
         }
     }
 
@@ -53,5 +76,6 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
         val frame: FrameLayout = view.findViewById(R.id.main_frame)
         val touchView: View = view.findViewById(R.id.touch_view)
         val imgCell: ImageView = view.findViewById(R.id.img_cell)
+        val progress: ProgressBar = view.findViewById(R.id.progress)
     }
 }

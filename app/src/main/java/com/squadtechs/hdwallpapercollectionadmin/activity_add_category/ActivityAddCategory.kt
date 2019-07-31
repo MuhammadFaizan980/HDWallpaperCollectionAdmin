@@ -37,8 +37,6 @@ class ActivityAddCategory : AppCompatActivity(), AddCategoryContracts.IView {
         btnSave.setOnClickListener {
             categoryName = edtCategoryName.text.toString().trim()
             presenter.initValidation(uri, categoryName)
-            loader.visibility = View.VISIBLE
-            btnSave.isEnabled = false
         }
         imgSelectImage.setOnClickListener {
             presenter.selectImage()
@@ -58,10 +56,10 @@ class ActivityAddCategory : AppCompatActivity(), AddCategoryContracts.IView {
     override fun onValidationResult(isValid: Boolean) {
         if (isValid) {
             presenter.uploadImage(uri!!, categoryName!!)
+            loader.visibility = View.VISIBLE
+            btnSave.isEnabled = false
         } else {
             Toast.makeText(this, "Select an image and enter category name first", Toast.LENGTH_LONG).show()
-            loader.visibility = View.INVISIBLE
-            btnSave.isEnabled = true
         }
     }
 

@@ -42,9 +42,9 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
         val width = displayMetrics.widthPixels
         holder.frame.layoutParams = FrameLayout.LayoutParams((width / 2), ((40 * height) / 100))
         if (position % 2 == 0) {
-            holder.frame.setPadding(1, 1, 0, 0)
+            holder.frame.setPadding(3, 3, 0, 0)
         } else {
-            holder.frame.setPadding(0, 1, 1, 0)
+            holder.frame.setPadding(0, 3, 3, 0)
         }
     }
 

@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         collectionReference.orderBy("server_time_stamp", Query.Direction.DESCENDING).addSnapshotListener { p0, p1 ->
             list.clear()
-            if (p1 == null && !p0!!.isEmpty) {
+            if (!p0!!.isEmpty) {
                 for (doc in p0.documents) {
                     val obj = doc.toObject(CategoryModel::class.java)!!
                     obj.category_key = doc.id
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
             } else {
-                Toast.makeText(this@MainActivity, p1!!.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, "There was an error", Toast.LENGTH_LONG).show()
             }
         }
     }

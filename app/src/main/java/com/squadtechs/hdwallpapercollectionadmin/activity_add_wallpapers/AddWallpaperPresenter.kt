@@ -63,7 +63,7 @@ class AddWallpaperPresenter constructor(val context: Context, val view: AddWallp
     override fun saveDataToFirestore(downloadUrl: String, categoryRef: String) {
         val map = HashMap<String, Any>()
         map["category_ref"] = categoryRef
-        map["category_image_url"] = downloadUrl
+        map["wallpaper_image_url"] = downloadUrl
         map["server_time_stamp"] = FieldValue.serverTimestamp()
         collectionReference.document(RANDOM_KEY).set(map).addOnCompleteListener { task ->
             if (task.isSuccessful) {

@@ -24,14 +24,13 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loader"
-        style="@style/AVLoadingIndicatorView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <TextView
+        android:id="@+id/txt_error_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="invisible"
-        app:indicatorColor="#656565"
-        app:indicatorName="BallClipRotatePulseIndicator" />
+        android:gravity="center"
+        android:text="@string/no_wallpaper_found"
+        android:textSize="21sp" />
 
 </FrameLayout>

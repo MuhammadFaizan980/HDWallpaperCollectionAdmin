@@ -3,7 +3,8 @@ package com.squadtechs.hdwallpapercollectionadmin.activity_main
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var list: ArrayList<CategoryModel>
     private lateinit var adapter: CategoryAdapter
+    private lateinit var txtError: TextView
     private val collectionReference = FirebaseFirestore.getInstance().collection("categories")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,13 +44,13 @@ class MainActivity : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
             } else {
-                Toast.makeText(this@MainActivity, "There was an error", Toast.LENGTH_LONG).show()
+                txtError.visibility = View.VISIBLE
             }
         }
     }
 
     private fun prepareToolbar() {
-        toolbar.title = "Wallpapers"
+        toolbar.title = "Categories"
         toolbar.inflateMenu(R.menu.menu_add)
         toolbar.setOnMenuItemClickListener { item: MenuItem? ->
             when (item!!.itemId) {
@@ -65,6 +67,12 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_view)
         list = ArrayList()
         adapter = CategoryAdapter(this, list)
+        txtError = findViewById(R.id.txt_error_message)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        txtError.visibility = View.GONE
     }
 
 }

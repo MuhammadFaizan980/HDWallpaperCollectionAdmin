@@ -24,7 +24,7 @@ class AddWallpaperPresenter constructor(val context: Context, val view: AddWallp
     private lateinit var RANDOM_KEY: String
 
     override fun prepareToolbar(toolbar: Toolbar) {
-        toolbar.title = "Add Category"
+        toolbar.title = "Add Wallpaper"
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black)
         toolbar.setNavigationOnClickListener {
             (context as Activity).finish()
@@ -37,11 +37,11 @@ class AddWallpaperPresenter constructor(val context: Context, val view: AddWallp
     }
 
     override fun selectImage() {
-        (context as Activity).startActivityForResult(Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), 69)
+        (context as Activity).startActivityForResult(Intent(Intent.ACTION_GET_CONTENT).setType("image/*"), 70)
     }
 
     override fun uploadImage(uri: Uri, categoryRef: String) {
-        RANDOM_KEY = collectionReference.document().toString()
+        RANDOM_KEY = collectionReference.document().id
         storageReference = FirebaseStorage.getInstance().getReference("wallpapers").child("$RANDOM_KEY.jpg")
         val uploadTask = storageReference.putFile(uri)
         val urlTask = uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->

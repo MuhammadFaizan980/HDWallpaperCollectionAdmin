@@ -11,7 +11,7 @@ import com.squadtechs.hdwallpapercollectionadmin.activity_add_wallpapers.Activit
 class ActivityWallpapers : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
-    private val CATEGORY_REF = intent!!.extras!!.getString("category_ref")
+    private lateinit var CATEGORY_REF: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +40,7 @@ class ActivityWallpapers : AppCompatActivity() {
 
     private fun initViews() {
         toolbar = findViewById(R.id.toolbar)
+        CATEGORY_REF = intent!!.extras!!.getString("category_ref") as String
     }
 
 }

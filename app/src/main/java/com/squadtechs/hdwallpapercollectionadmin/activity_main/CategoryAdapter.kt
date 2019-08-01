@@ -18,6 +18,7 @@ import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.ImageRequest
 import com.squadtechs.hdwallpapercollectionadmin.R
 import com.squadtechs.hdwallpapercollectionadmin.activity_add_wallpapers.ActivityAddWallpapers
+import com.squadtechs.hdwallpapercollectionadmin.activity_wallpapers.ActivityWallpapers
 
 
 class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) :
@@ -40,7 +41,7 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
     private fun setListener(holder: CategoryHolder, position: Int) {
         holder.touchView.setOnClickListener {
             context.startActivity(
-                Intent(context, ActivityAddWallpapers::class.java).putExtra(
+                Intent(context, ActivityWallpapers::class.java).putExtra(
                     "category_ref",
                     list[position].category_key
                 )

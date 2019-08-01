@@ -15,6 +15,7 @@ import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.ImageRequest
+import com.google.firebase.Timestamp
 import com.squadtechs.hdwallpapercollectionadmin.R
 
 
@@ -37,7 +38,8 @@ class WallpaperAdapter(val context: Context, val list: ArrayList<WallpaperModel>
 
     private fun setListener(holder: WallpaperHolder, position: Int) {
         holder.touchView.setOnClickListener {
-            //TODO: add your listener here
+            val timeStamp: Timestamp = list[position].server_time_stamp as Timestamp
+            Toast.makeText(context, timeStamp.seconds.toString(), Toast.LENGTH_LONG).show()
         }
     }
 

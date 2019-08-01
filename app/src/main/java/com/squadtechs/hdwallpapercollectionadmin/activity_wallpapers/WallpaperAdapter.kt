@@ -1,6 +1,7 @@
 package com.squadtechs.hdwallpapercollectionadmin.activity_wallpapers
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.DisplayMetrics
@@ -15,7 +16,8 @@ import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.ImageRequest
-import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.squadtechs.hdwallpapercollectionadmin.R
 
 
@@ -37,10 +39,42 @@ class WallpaperAdapter(val context: Context, val list: ArrayList<WallpaperModel>
     }
 
     private fun setListener(holder: WallpaperHolder, position: Int) {
-        holder.touchView.setOnClickListener {
-            val timeStamp: Timestamp = list[position].server_time_stamp as Timestamp
-            Toast.makeText(context, timeStamp.seconds.toString(), Toast.LENGTH_LONG).show()
+        holder.touchView.setOnLongClickListener {
+            showConfirmDialog(position)
+            return@setOnLongClickListener true
         }
+    }
+
+    private fun showConfirmDialog(position: Int) {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Warning!")
+        alertDialog.setMessage("This wallpaper will be permanently deleted\nAre you sure you want to continue?")
+        alertDialog.setPositiveButton("Confirm")
+        { dialogInterface, i ->
+            val storageRef =
+                FirebaseStorage.getInstance().getReference("wallpapers").child("${list[position].wallpaper_key}.jpg")
+            val documentRef =
+                FirebaseFirestore.getInstance().collection("wallpapers").document(list[position].wallpaper_key)
+
+            storageRef.delete().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    documentRef.delete().addOnCompleteListener { mTask ->
+                        if (mTask.isSuccessful) {
+                            Toast.makeText(context, "Wallpaper deleted successfully", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, mTask.exception!!.message!!, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(context, task.exception!!.message!!, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+            .setNegativeButton("Cancel")
+            { dialogInterface, i ->
+                dialogInterface.cancel()
+            }
+        alertDialog.show()
     }
 
     private fun inflateValues(holder: WallpaperHolder, position: Int) {

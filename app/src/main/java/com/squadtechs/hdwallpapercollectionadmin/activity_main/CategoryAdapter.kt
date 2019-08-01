@@ -1,6 +1,7 @@
 package com.squadtechs.hdwallpapercollectionadmin.activity_main
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -16,8 +17,9 @@ import com.android.volley.toolbox.BasicNetwork
 import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.ImageRequest
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.squadtechs.hdwallpapercollectionadmin.R
-import com.squadtechs.hdwallpapercollectionadmin.activity_add_wallpapers.ActivityAddWallpapers
 import com.squadtechs.hdwallpapercollectionadmin.activity_wallpapers.ActivityWallpapers
 
 
@@ -47,6 +49,52 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
                 )
             )
         }
+        holder.touchView.setOnLongClickListener {
+            showConfirmDialog(position)
+            return@setOnLongClickListener true
+        }
+    }
+
+    private fun showConfirmDialog(position: Int) {
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Warning!")
+        alertDialog.setMessage("This wallpaper collection will be permanently deleted\nAre you sure you want to continue?")
+        alertDialog.setPositiveButton("Confirm")
+        { dialogInterface, i ->
+            val storageRef =
+                FirebaseStorage.getInstance().getReference("categories").child("${list[position].category_name}.jpg")
+            val documentRef =
+                FirebaseFirestore.getInstance().collection("categories").document(list[position].category_key)
+            val collectionRef = FirebaseFirestore.getInstance().collection("wallpapers")
+
+            collectionRef.whereEqualTo("category_ref", list[position].category_key)
+                .addSnapshotListener((context as Activity)) { p0, p1 ->
+                    if (p0 == null || p0.isEmpty) {
+                        storageRef.delete().addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                documentRef.delete().addOnCompleteListener { mTask ->
+                                    if (mTask.isSuccessful) {
+                                        Toast.makeText(context, "Category deleted successfully", Toast.LENGTH_LONG)
+                                            .show()
+                                    } else {
+                                        Toast.makeText(context, mTask.exception!!.message!!, Toast.LENGTH_LONG)
+                                            .show()
+                                    }
+                                }
+                            } else {
+                                Toast.makeText(context, task.exception!!.message!!, Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, "This collection is not empty!", Toast.LENGTH_LONG).show()
+                    }
+                }
+        }
+            .setNegativeButton("Cancel")
+            { dialogInterface, i ->
+                dialogInterface.cancel()
+            }
+        alertDialog.show()
     }
 
     private fun inflateValues(holder: CategoryHolder, position: Int) {

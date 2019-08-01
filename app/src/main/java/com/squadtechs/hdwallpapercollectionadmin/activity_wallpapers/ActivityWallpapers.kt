@@ -34,18 +34,18 @@ class ActivityWallpapers : AppCompatActivity() {
     private fun populateRecyclerView() {
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
-        collectionReference.whereEqualTo("category_ref", CATEGORY_REF).addSnapshotListener { p0, p1 ->
+        collectionReference.whereEqualTo("category_ref", CATEGORY_REF).addSnapshotListener{ p0, p1 ->
             list.clear()
             if (!p0!!.isEmpty) {
                 for (doc in p0.documents) {
                     val obj = doc.toObject(WallpaperModel::class.java)!!
                     obj.wallpaper_key = doc.id
                     list.add(obj)
-                    adapter.notifyDataSetChanged()
                 }
             } else {
                 txtError.visibility = View.VISIBLE
             }
+            adapter.notifyDataSetChanged()
         }
     }
 

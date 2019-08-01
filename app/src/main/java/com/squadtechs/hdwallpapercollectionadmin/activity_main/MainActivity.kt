@@ -34,19 +34,20 @@ class MainActivity : AppCompatActivity() {
     private fun populateRecyclerView() {
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
-        collectionReference.orderBy("server_time_stamp", Query.Direction.DESCENDING).addSnapshotListener { p0, p1 ->
-            list.clear()
-            if (!p0!!.isEmpty) {
-                for (doc in p0.documents) {
-                    val obj = doc.toObject(CategoryModel::class.java)!!
-                    obj.category_key = doc.id
-                    list.add(obj)
-                    adapter.notifyDataSetChanged()
+        collectionReference.orderBy("server_time_stamp", Query.Direction.DESCENDING)
+            .addSnapshotListener{ p0, p1 ->
+                list.clear()
+                if (!p0!!.isEmpty) {
+                    for (doc in p0.documents) {
+                        val obj = doc.toObject(CategoryModel::class.java)!!
+                        obj.category_key = doc.id
+                        list.add(obj)
+                    }
+                } else {
+                    txtError.visibility = View.VISIBLE
                 }
-            } else {
-                txtError.visibility = View.VISIBLE
+                adapter.notifyDataSetChanged()
             }
-        }
     }
 
     private fun prepareToolbar() {

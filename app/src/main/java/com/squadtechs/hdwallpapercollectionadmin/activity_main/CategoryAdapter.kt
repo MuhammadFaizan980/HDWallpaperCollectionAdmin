@@ -2,6 +2,7 @@ package com.squadtechs.hdwallpapercollectionadmin.activity_main
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.DiskBasedCache
 import com.android.volley.toolbox.HurlStack
 import com.android.volley.toolbox.ImageRequest
 import com.squadtechs.hdwallpapercollectionadmin.R
+import com.squadtechs.hdwallpapercollectionadmin.activity_add_wallpapers.ActivityAddWallpapers
 
 
 class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) :
@@ -32,12 +34,17 @@ class CategoryAdapter(val context: Context, val list: ArrayList<CategoryModel>) 
     override fun onBindViewHolder(holder: CategoryHolder, position: Int) {
         adjustLayout(holder, position)
         inflateValues(holder, position)
-        setListener(holder)
+        setListener(holder, position)
     }
 
-    private fun setListener(holder: CategoryHolder) {
+    private fun setListener(holder: CategoryHolder, position: Int) {
         holder.touchView.setOnClickListener {
-            Toast.makeText(context, "Touch detected", Toast.LENGTH_SHORT).show()
+            context.startActivity(
+                Intent(context, ActivityAddWallpapers::class.java).putExtra(
+                    "category_ref",
+                    list[position].category_key
+                )
+            )
         }
     }
 

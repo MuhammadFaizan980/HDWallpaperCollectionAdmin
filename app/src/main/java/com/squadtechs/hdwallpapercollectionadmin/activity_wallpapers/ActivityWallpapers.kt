@@ -11,6 +11,7 @@ import com.squadtechs.hdwallpapercollectionadmin.activity_add_wallpapers.Activit
 class ActivityWallpapers : AppCompatActivity() {
 
     private lateinit var toolbar: Toolbar
+    private val CATEGORY_REF = intent!!.extras!!.getString("category_ref")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +26,12 @@ class ActivityWallpapers : AppCompatActivity() {
         toolbar.setOnMenuItemClickListener { item: MenuItem? ->
             when (item!!.itemId) {
                 R.id.item_add -> {
-                    startActivity(Intent(this, ActivityAddWallpapers::class.java))
+                    startActivity(
+                        Intent(this, ActivityAddWallpapers::class.java).putExtra(
+                            "category_ref",
+                            CATEGORY_REF
+                        )
+                    )
                 }
             }
             return@setOnMenuItemClickListener true
